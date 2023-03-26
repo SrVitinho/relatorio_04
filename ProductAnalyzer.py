@@ -2,8 +2,9 @@ from database import Database
 from writeAJson import writeAJson
 
 class ProductAN:
-    def __innit__(self):
+    def __init__(self):
         self.db = Database(database="mercado", collection="compras")
+        self.db.resetDatabase()
 
     def clientemaicaro(self):
         result = self.db.collection.aggregate([
@@ -39,3 +40,4 @@ class ProductAN:
             {"$group": {"_id": "$produtos.descricao", "total": {"$sum": "$produtos.quantidade"}}},
             {"$sort": {"total": -1}}
         ])
+        writeAJson(result, "TOTAL")
